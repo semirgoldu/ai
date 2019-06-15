@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:background="#FFFFFF"
+    android:paddingRight="16dp" >
+		<ImageView
+			android:id="@+id/logo"
+			android:layout_width="fill_parent"
+			android:layout_height="400"
+			
+		/>
+		<EditText
+			android:id="@+id/search_box"
+			android:layout_width = "fill_parent"
+			android:layout_height="50dp"
+			android:layout_below="@id/logo" 
+			android:background="#CCCCCC"
+			
+			android:textColor="#000000"
+		/>
+		<Button
+    android:id="@+id/classify"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_box"
+        
+        android:background="#0000FF"
+        android:text="CLASSIFY" />
+        
+			
+	<TextView
+		android:id="@+id/result"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:textColor="#000000"
+		android:textSize="8dp"
+		android:paddingLeft="16dp"
+    android:background="#FFFFFF"
+    android:marginTop="16px" 
+    
+    android:layout_below="@id/classify" 
+		
+/>
+
+		<Button
+    android:id="@+id/close_app"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        
+        android:background="#FF0000"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentRight="true"
+        android:text="CLOSE" />
+		
+</RelativeLayout>
