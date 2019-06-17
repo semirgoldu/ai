@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:background="#FFFFFF"
+    android:paddingRight="16dp" >
+    	<ImageView
+		android:id="@+id/logo"
+		android:layout_width="fill_parent"
+		android:layout_height="400"
+		 
+		
+		
+	/>
+	<ImageView
+		android:id="@+id/preview"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		 android:layout_below="@id/logo" 
+		android:visibility="gone"
+		
+	/>
+	
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        
+			android:gravity="right"
+ >
+    
+        <Button
+    android:id="@id/upload"
+        
+        android:layout_height="60dp"
+        
+        
+        android:layout_weight="1"
+        android:background="#00FF00"
+        android:textColor="#FFFFFF"
+        android:textSize="10dp"
+        android:text="UPLOAD" />
+        </LinearLayout>
+        <Button
+    android:id="@id/close_app"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="#FF0000"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentRight="true"
+        android:text="X" />
+
+</RelativeLayout>
