@@ -1,0 +1,30 @@
+# Data (large files)
+data/raw/
+data/processed/*.jsonl
+data/processed/*.json
+
+# Outputs
+outputs/checkpoints/
+outputs/final_model/
+outputs/exported/
+outputs/tensorboard/
+outputs/logs/*.jsonl
+outputs/logs/training_results.json
+outputs/logs/eval_results.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

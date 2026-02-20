@@ -1,0 +1,109 @@
+# ============================================================
+# Qwen2.5-Coder-32B Odoo Fine-Tuning Configuration
+# Hardware: 2x NVIDIA RTX Pro 6000 96GB (192GB total VRAM)
+# ============================================================
+
+# --- Model ---
+model:
+  name: "Qwen/Qwen2.5-Coder-32B-Instruct"
+  revision: "main"
+  torch_dtype: "bfloat16"
+  attn_implementation: "flash_attention_2"  # or "sdpa" if flash-attn not available
+  trust_remote_code: true
+  use_cache: false  # Disable for training
+
+# --- LoRA Configuration ---
+lora:
+  r: 64                          # LoRA rank (higher = more capacity, more VRAM)
+  lora_alpha: 128                # Scaling factor (typically 2x rank)
+  lora_dropout: 0.05
+  target_modules:                # Target attention + MLP layers
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  modules_to_save: null          # Set to ["embed_tokens", "lm_head"] if needed
+
+# --- Training Hyperparameters ---
+training:
+  # Batch size: per_device * num_gpus * gradient_accumulation = effective batch
+  # 2 * 2 * 8 = 32 effective batch size
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  num_train_epochs: 3
+  max_steps: -1                  # -1 means use num_train_epochs
+
+  # Learning rate
+  learning_rate: 2.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+
+  # Precision
+  bf16: true
+  fp16: false
+  tf32: true
+
+  # Memory optimization
+  gradient_checkpointing: true
+  gradient_checkpointing_kwargs:
+    use_reentrant: false
+
+  # Logging
+  logging_steps: 10
+  logging_first_step: true
+  log_level: "info"
+
+  # Evaluation
+  eval_strategy: "steps"
+  eval_steps: 200
+  eval_on_start: true
+
+  # Saving
+  save_strategy: "steps"
+  save_steps: 500
+  save_total_limit: 3
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false
+
+  # Misc
+  seed: 42
+  dataloader_num_workers: 4
+  dataloader_pin_memory: true
+  remove_unused_columns: false
+  report_to: ["tensorboard"]
+  run_name: "qwen-32b-odoo-lora"
+
+# --- Data ---
+data:
+  train_file: "data/processed/train.jsonl"
+  val_file: "data/processed/val.jsonl"
+  test_file: "data/processed/test.jsonl"
+  max_seq_length: 4096
+  packing: false                 # Set true for efficiency if examples are short
+
+# --- DeepSpeed ---
+deepspeed:
+  enabled: true
+  config_file: "configs/deepspeed_config.json"
+
+# --- Output ---
+output:
+  output_dir: "outputs/checkpoints"
+  logging_dir: "outputs/tensorboard"
+  final_model_dir: "outputs/final_model"
+
+# --- Hardware ---
+hardware:
+  num_gpus: 2
+  gpu_type: "RTX Pro 6000"
+  vram_per_gpu_gb: 96
+  total_vram_gb: 192
